@@ -1,6 +1,6 @@
 package com.gzgd.gzgdlicense.encoded;
 
-import javax.crypto.Cipher;;
+import javax.crypto.Cipher;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.security.*;
@@ -250,6 +250,7 @@ public class RSACoder {
 
 
     /**
+     * 测试运行函数
      * @param args
      * @throws Exception
      */

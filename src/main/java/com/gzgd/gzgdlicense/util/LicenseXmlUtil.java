@@ -26,14 +26,20 @@ public class LicenseXmlUtil {
      * xml的文件路径
      */
     public final static String LICENSE_FILE_URL = "resources/license.xml";
-
+    /**
+     * 测试运行函数
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
-
         writerToXml(initLicenseData(), LICENSE_FILE_URL);
         readFormXml(LICENSE_FILE_URL);
-
     }
-
+    /**
+     * 初始化机密对象
+     * @return
+     * @throws Exception
+     */
     public static License initLicenseData() throws Exception{
         License license =new License();
         //将当前时间戳加上uuid的绝对值作为id，基本上能保证唯一
@@ -69,6 +75,12 @@ public class LicenseXmlUtil {
         return license;
     }
 
+    /**
+     * 从xml文件在读取信息到对象
+     * @param fileUrl
+     * @return
+     * @throws Exception
+     */
     public static License readFormXml(String fileUrl) throws Exception {
         File file = new File(fileUrl);
         SAXReader reader = new SAXReader();
@@ -85,7 +97,7 @@ public class LicenseXmlUtil {
 
         while (iter.hasNext()) {
             Element name = iter.next();
-            System.out.println(name.getName() + ":" + name.getText());
+            //System.out.println(name.getName() + ":" + name.getText());
             //遍历所有属性
             for (Field item : field) {
                 //获取属性的名字
@@ -94,7 +106,7 @@ public class LicenseXmlUtil {
                 if (name.getName().equals(fieldName)){
                     //将属性的首字符大写，方便构造get，set方法
                     String tempName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-                    System.out.println("方法名：" + tempName);
+                    //System.out.println("方法名：" + tempName);
                     Method m = license.getClass().getDeclaredMethod("set" + tempName,String.class);
                     m.setAccessible(true);
                     //调用set方法设置属性值
@@ -106,6 +118,12 @@ public class LicenseXmlUtil {
         return license;
     }
 
+    /**
+     * 写入对象到xml文件中去
+     * @param license
+     * @param fileUrl
+     * @throws Exception
+     */
     public static void writerToXml(License license, String fileUrl) throws Exception {
         Document document = DocumentHelper.createDocument();
         // 创建元素并设置关系

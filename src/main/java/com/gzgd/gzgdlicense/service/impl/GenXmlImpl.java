@@ -59,4 +59,9 @@ public class GenXmlImpl implements IGenXml {
         //将对象写回到xml中去
         LicenseXmlUtil.writerToXml(license,fileUrl);
     }
+
+    @Override
+    public boolean decryptXml(String fileUrl) throws Exception {
+        return false;
+    }
 }
