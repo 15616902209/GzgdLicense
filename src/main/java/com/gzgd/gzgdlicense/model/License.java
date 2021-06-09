@@ -141,11 +141,26 @@ public class License {
      */
     public String getSourceStr(){
         //id是唯一的，name来区分系统，ip用来验证地址 用来验证准确性
-        String sourcesStr = (id+name+ip+options);
-        //字符串先转成ascii码
-        StringBuffer ascs = new StringBuffer();
+        String sourcesStr = (id+options+name+ip+startTime+endTime);
+        System.out.println("最原始字符:"+sourcesStr);
         char[] chars1 = sourcesStr.toCharArray();
-        //遍历字符，然后隔两位增加到ascs数组中，然后大于50位就不加了，这样既对原有信息做到了加密，又进行了混淆
+        //对源字符串进行混淆，打乱位置
+        for (int i = 0; i < chars1.length; i++) {
+            char temp  = chars1[i];
+            if (i< chars1.length/2){
+                chars1[i] = chars1[chars1.length-i-1];
+                chars1[chars1.length-i-1] = temp;
+            }
+            if (i-3>0){
+                chars1[i] = chars1[i-3];
+                chars1[i-3] = temp;
+            }
+        }
+        System.out.println("打乱的字符:"+chars1.toString());
+        //把打乱的字符串再转成ascii码
+        StringBuffer ascs = new StringBuffer();
+        //遍历字符，然后隔两位增加到ascs数组中，增加到50位就不加了，这样既对原有信息做到了加密，又进行了混淆
+        System.out.println("长度:"+chars1.length);
         for (int i = 0; i < chars1.length; i++) {
             int asc = (int)chars1[i];
             if (i%2==0){
@@ -155,6 +170,7 @@ public class License {
                 break;
             }
         }
+        System.out.println("根据xml信息最后得到的字符:"+ascs.toString());
         return  ascs.toString();
     }
 }

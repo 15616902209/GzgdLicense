@@ -8,6 +8,7 @@ import com.gzgd.gzgdlicense.util.LicenseXmlUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Author: SachZhong
@@ -44,6 +45,9 @@ public class GenXmlImpl implements IGenXml {
     public void encryptXml(String fileUrl) throws Exception {
         //读取xml 中的信息，转换成对象
         License license = LicenseXmlUtil.readFormXml(fileUrl);
+        //更新ID,将当前时间戳加上uuid的绝对值作为id，基本上能保证唯一
+        String id =String.valueOf(System.currentTimeMillis() +Math.abs(UUID.randomUUID().getLeastSignificantBits()));
+        license.setId(id);
         //生成密钥对，并生成对应的文件
         Map<String, Object> keyMap = RSACoder.generateKey(PUBLIC_KEY_FILE_URL, PRIVATE_KEY_FILE_URL);
         //私钥
@@ -67,7 +71,6 @@ public class GenXmlImpl implements IGenXml {
         byte[] decodeStr2 = RSACoder.decryptByPublicKey(Base64.decode(license.getEncryptedStr()), privateKeyFile);
         System.out.println("用公钥解密后的数据："+new String(decodeStr2));
         String sourceStr = license.getSourceStr();
-        System.out.println("源数据："+sourceStr);
         return sourceStr.equals(new String(decodeStr2));
     }
 }
