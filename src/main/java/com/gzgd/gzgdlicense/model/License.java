@@ -1,5 +1,10 @@
 package com.gzgd.gzgdlicense.model;
 
+import cn.hutool.crypto.digest.MD5;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 /**
  * @Author: SachZhong
  * @Description:
@@ -136,6 +141,20 @@ public class License {
      */
     public String getSourceStr(){
         //id是唯一的，name来区分系统，ip用来验证地址 用来验证准确性
-        return "id:"+id+",name:"+name+",ip:"+ip;
+        String sourcesStr = (id+name+ip+options);
+        //字符串先转成ascii码
+        StringBuffer ascs = new StringBuffer();
+        char[] chars1 = sourcesStr.toCharArray();
+        //遍历字符，然后隔两位增加到ascs数组中，然后大于50位就不加了，这样既对原有信息做到了加密，又进行了混淆
+        for (int i = 0; i < chars1.length; i++) {
+            int asc = (int)chars1[i];
+            if (i%2==0){
+                ascs.append(asc);
+            }
+            if (ascs.length()>50){
+                break;
+            }
+        }
+        return  ascs.toString();
     }
 }

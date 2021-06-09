@@ -13,6 +13,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 
@@ -59,7 +60,7 @@ public class LicenseXmlUtil {
         byte[] privateKey = RSACoder.getPrivateKey(keyMap);
 
         //获取要加密的字符串
-        byte[] sourceByte = license.getSourceStr().getBytes();
+        byte[] sourceByte = license.getSourceStr().getBytes(StandardCharsets.UTF_8);
         System.out.println("sourceByte:" + sourceByte.length);
 
 
@@ -125,6 +126,7 @@ public class LicenseXmlUtil {
      * @throws Exception
      */
     public static void writerToXml(License license, String fileUrl) throws Exception {
+        System.out.println("要写入到xml中的信息：" + license.toString());
         Document document = DocumentHelper.createDocument();
         // 创建元素并设置关系
         Element config = document.addElement("config");

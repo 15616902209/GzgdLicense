@@ -6,6 +6,7 @@ import com.gzgd.gzgdlicense.model.License;
 import com.gzgd.gzgdlicense.service.IGenXml;
 import com.gzgd.gzgdlicense.util.LicenseXmlUtil;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -35,8 +36,8 @@ public class GenXmlImpl implements IGenXml {
     @Override
     public void genBaseXml(String fileUrl) throws Exception {
         //初始化xml文件到指定地址
-        License license =LicenseXmlUtil.initLicenseData();
-        LicenseXmlUtil.writerToXml(license,fileUrl);
+        License license = LicenseXmlUtil.initLicenseData();
+        LicenseXmlUtil.writerToXml(license, fileUrl);
     }
 
     @Override
@@ -44,24 +45,29 @@ public class GenXmlImpl implements IGenXml {
         //读取xml 中的信息，转换成对象
         License license = LicenseXmlUtil.readFormXml(fileUrl);
         //生成密钥对，并生成对应的文件
-        Map<String, Object> keyMap = RSACoder.generateKey(PUBLIC_KEY_FILE_URL,PRIVATE_KEY_FILE_URL);
+        Map<String, Object> keyMap = RSACoder.generateKey(PUBLIC_KEY_FILE_URL, PRIVATE_KEY_FILE_URL);
         //私钥
         byte[] privateKey = RSACoder.getPrivateKey(keyMap);
         //获取要加密的字符串
-        byte[] sourceByte = license.getSourceStr().getBytes();
-        System.out.println("sourceByte:" + sourceByte.length);
+        byte[] sourceByte = license.getSourceStr().getBytes(StandardCharsets.UTF_8);
         //用私钥加密
-        byte[] byteSign = RSACoder.encryptByPrivateKey(sourceByte,privateKey);
+        byte[] byteSign = RSACoder.encryptByPrivateKey(sourceByte, privateKey);
         String encrytStr = Base64.encode(byteSign);
-        System.out.println("使用私钥加密得到的数据：" + encrytStr);
         //设置得到对象中去
         license.setEncryptedStr(encrytStr);
         //将对象写回到xml中去
-        LicenseXmlUtil.writerToXml(license,fileUrl);
+        LicenseXmlUtil.writerToXml(license, fileUrl);
     }
 
     @Override
     public boolean decryptXml(String fileUrl) throws Exception {
-        return false;
+        //读取xml 中的信息，转换成对象
+        License license = LicenseXmlUtil.readFormXml(fileUrl);
+        byte[] privateKeyFile = RSACoder.loadPublicKey(PUBLIC_KEY_FILE_URL);
+        byte[] decodeStr2 = RSACoder.decryptByPublicKey(Base64.decode(license.getEncryptedStr()), privateKeyFile);
+        System.out.println("用公钥解密后的数据："+new String(decodeStr2));
+        String sourceStr = license.getSourceStr();
+        System.out.println("源数据："+sourceStr);
+        return sourceStr.equals(new String(decodeStr2));
     }
 }

@@ -69,10 +69,10 @@ public class RSACoder {
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
         //甲方公钥
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        System.out.println("系数：" + publicKey.getModulus() + " 加密指数：" + publicKey.getPublicExponent());
+        //System.out.println("系数：" + publicKey.getModulus() + " 加密指数：" + publicKey.getPublicExponent());
         //甲方私钥
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-        System.out.println("系数：" + privateKey.getModulus() + " 解密指数：" + privateKey.getPrivateExponent());
+        //System.out.println("系数：" + privateKey.getModulus() + " 解密指数：" + privateKey.getPrivateExponent());
         //将密钥存储在map中
         Map<String, Object> keyMap = new HashMap<String, Object>();
         keyMap.put(PUBLIC_KEY, publicKey);
@@ -124,8 +124,20 @@ public class RSACoder {
      * @return
      * @throws Exception
      */
-    protected static byte[] loadPublicKey() throws Exception {
+    public static byte[] loadPublicKey() throws Exception {
         File publicKeyFile = new File(PUBLIC_KEY_FILE_URL);
+        byte[] keyArr = FileUtil.readBytes(publicKeyFile);
+        return keyArr;
+    }
+
+    /**
+     * 加载公钥
+     *
+     * @return
+     * @throws Exception
+     */
+    public static byte[] loadPublicKey(String publicKeyFileUrl) throws Exception {
+        File publicKeyFile = new File(publicKeyFileUrl);
         byte[] keyArr = FileUtil.readBytes(publicKeyFile);
         return keyArr;
     }
@@ -138,6 +150,17 @@ public class RSACoder {
      */
     protected static byte[] loadPrivateKey() throws Exception {
         File privateKeyFile = new File(PRIVATE_KEY_FILE_URL);
+        byte[] keyArr = FileUtil.readBytes(privateKeyFile);
+        return keyArr;
+    }
+    /**
+     * 加载私钥
+     *
+     * @return
+     * @throws Exception
+     */
+    protected static byte[] loadPrivateKey(String privateKeyFileUrl) throws Exception {
+        File privateKeyFile = new File(privateKeyFileUrl);
         byte[] keyArr = FileUtil.readBytes(privateKeyFile);
         return keyArr;
     }
@@ -300,7 +323,6 @@ public class RSACoder {
         byte[] byteSign2 = RSACoder.encryptByPrivateKey(needSignStr.getBytes(), privateKey);
         String encrytStr2 = Base64.encode(byteSign2);
         System.out.println("使用私钥加密得到的数据：" + encrytStr2);
-        System.out.println();
         byte[] decodeStr2 = RSACoder.decryptByPublicKey(Base64.decode(encrytStr2), publicKey);
         System.out.println("使用文件的私钥解密后的数据：" + new String(decodeStr2));
 
