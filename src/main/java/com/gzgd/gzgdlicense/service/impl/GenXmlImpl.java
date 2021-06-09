@@ -1,6 +1,7 @@
 package com.gzgd.gzgdlicense.service.impl;
 
 import cn.hutool.core.codec.Base64;
+import com.gzgd.gzgdlicense.constants.LicenseConstants;
 import com.gzgd.gzgdlicense.encoded.RSACoder;
 import com.gzgd.gzgdlicense.model.License;
 import com.gzgd.gzgdlicense.service.IGenXml;
@@ -17,23 +18,6 @@ import java.util.UUID;
  */
 public class GenXmlImpl implements IGenXml {
 
-    /**
-     * 公钥名称
-     */
-    public final static String PUBLIC_KEY_NAME = "publicKey";
-    /**
-     * 私钥名称
-     */
-    public final static String PRIVATE_KEY_NAME = "privateKey";
-    /**
-     * 公钥文件生成路径
-     */
-    public final static String PUBLIC_KEY_FILE_URL = "resources/" + PUBLIC_KEY_NAME;
-    /**
-     * 私钥文件生成路径
-     */
-    public final static String PRIVATE_KEY_FILE_URL = "resources/" + PRIVATE_KEY_NAME;
-
     @Override
     public void genBaseXml(String fileUrl) throws Exception {
         //初始化xml文件到指定地址
@@ -49,7 +33,7 @@ public class GenXmlImpl implements IGenXml {
         String id =String.valueOf(System.currentTimeMillis() +Math.abs(UUID.randomUUID().getLeastSignificantBits()));
         license.setId(id);
         //生成密钥对，并生成对应的文件
-        Map<String, Object> keyMap = RSACoder.generateKey(PUBLIC_KEY_FILE_URL, PRIVATE_KEY_FILE_URL);
+        Map<String, Object> keyMap = RSACoder.generateKey(LicenseConstants.PUBLIC_KEY_FILE_URL,LicenseConstants.PRIVATE_KEY_FILE_URL);
         //私钥
         byte[] privateKey = RSACoder.getPrivateKey(keyMap);
         //获取要加密的字符串
@@ -67,7 +51,7 @@ public class GenXmlImpl implements IGenXml {
     public boolean decryptXml(String fileUrl) throws Exception {
         //读取xml 中的信息，转换成对象
         License license = LicenseXmlUtil.readFormXml(fileUrl);
-        byte[] privateKeyFile = RSACoder.loadPublicKey(PUBLIC_KEY_FILE_URL);
+        byte[] privateKeyFile = RSACoder.loadPublicKey(LicenseConstants.PUBLIC_KEY_FILE_URL);
         byte[] decodeStr2 = RSACoder.decryptByPublicKey(Base64.decode(license.getEncryptedStr()), privateKeyFile);
         System.out.println("用公钥解密后的数据："+new String(decodeStr2));
         String sourceStr = license.getSourceStr();

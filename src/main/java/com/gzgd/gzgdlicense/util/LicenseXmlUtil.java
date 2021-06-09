@@ -9,6 +9,7 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -27,8 +28,10 @@ public class LicenseXmlUtil {
      * xml的文件路径
      */
     public final static String LICENSE_FILE_URL = "resources/license.xml";
+
     /**
      * 测试运行函数
+     *
      * @param args
      * @throws Exception
      */
@@ -36,15 +39,17 @@ public class LicenseXmlUtil {
         writerToXml(initLicenseData(), LICENSE_FILE_URL);
         readFormXml(LICENSE_FILE_URL);
     }
+
     /**
      * 初始化机密对象
+     *
      * @return
      * @throws Exception
      */
-    public static License initLicenseData() throws Exception{
-        License license =new License();
+    public static License initLicenseData() throws Exception {
+        License license = new License();
         //将当前时间戳加上uuid的绝对值作为id，基本上能保证唯一
-        String id =String.valueOf(System.currentTimeMillis() +Math.abs(UUID.randomUUID().getLeastSignificantBits()));
+        String id = String.valueOf(System.currentTimeMillis() + Math.abs(UUID.randomUUID().getLeastSignificantBits()));
         license.setId(id);
         license.setName("sachzhong");
 
@@ -63,9 +68,8 @@ public class LicenseXmlUtil {
         byte[] sourceByte = license.getSourceStr().getBytes(StandardCharsets.UTF_8);
         System.out.println("sourceByte:" + sourceByte.length);
 
-
         //用私钥签名 公钥解密
-        byte[] byteSign = RSACoder.encryptByPrivateKey(sourceByte,privateKey);
+        byte[] byteSign = RSACoder.encryptByPrivateKey(sourceByte, privateKey);
         String encrytStr = Base64.encode(byteSign);
         System.out.println("使用私钥加密得到的数据：" + encrytStr);
         license.setEncryptedStr(encrytStr);
@@ -78,6 +82,7 @@ public class LicenseXmlUtil {
 
     /**
      * 从xml文件在读取信息到对象
+     *
      * @param fileUrl
      * @return
      * @throws Exception
@@ -92,7 +97,7 @@ public class LicenseXmlUtil {
         // 根据跟元素找到全部的子节点
         Iterator<Element> iter = root.elementIterator();
 
-        License license =new License();
+        License license = new License();
         //获取实体类的所有属性，返回Field数组
         Field[] field = license.getClass().getDeclaredFields();
 
@@ -104,14 +109,14 @@ public class LicenseXmlUtil {
                 //获取属性的名字
                 String fieldName = item.getName();
                 //通过反射将xml文件中的属性设置到对象中去
-                if (name.getName().equals(fieldName)){
+                if (name.getName().equals(fieldName)) {
                     //将属性的首字符大写，方便构造get，set方法
                     String tempName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
                     //System.out.println("方法名：" + tempName);
-                    Method m = license.getClass().getDeclaredMethod("set" + tempName,String.class);
+                    Method m = license.getClass().getDeclaredMethod("set" + tempName, String.class);
                     m.setAccessible(true);
                     //调用set方法设置属性值
-                    m.invoke(license,name.getText());
+                    m.invoke(license, name.getText());
                 }
             }
         }
@@ -121,6 +126,7 @@ public class LicenseXmlUtil {
 
     /**
      * 写入对象到xml文件中去
+     *
      * @param license
      * @param fileUrl
      * @throws Exception

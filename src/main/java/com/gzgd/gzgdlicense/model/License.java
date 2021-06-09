@@ -1,10 +1,4 @@
 package com.gzgd.gzgdlicense.model;
-
-import cn.hutool.crypto.digest.MD5;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
 /**
  * @Author: SachZhong
  * @Description:
@@ -141,36 +135,41 @@ public class License {
      */
     public String getSourceStr(){
         //id是唯一的，name来区分系统，ip用来验证地址 用来验证准确性
-        String sourcesStr = (id+options+name+ip+startTime+endTime);
+        String sourcesStr = (id+name+ip+options+startTime+endTime);
+
         System.out.println("最原始字符:"+sourcesStr);
         char[] chars1 = sourcesStr.toCharArray();
+        StringBuffer ascs = new StringBuffer();
+
         //对源字符串进行混淆，打乱位置
         for (int i = 0; i < chars1.length; i++) {
-            char temp  = chars1[i];
-            if (i< chars1.length/2){
-                chars1[i] = chars1[chars1.length-i-1];
-                chars1[chars1.length-i-1] = temp;
+            if (i%2==0){
+                ascs.append((int)chars1[i]);
+                //上加整体的字符长度除2，只要整体一变，数据就会不一样
+                ascs.append(chars1.length/2);
             }
-            if (i-3>0){
-                chars1[i] = chars1[i-3];
-                chars1[i-3] = temp;
+            if (i<chars1.length/2){
+                ascs.append((int)chars1[chars1.length-i-1]);
             }
         }
-        System.out.println("打乱的字符:"+chars1.toString());
-        //把打乱的字符串再转成ascii码
-        StringBuffer ascs = new StringBuffer();
-        //遍历字符，然后隔两位增加到ascs数组中，增加到50位就不加了，这样既对原有信息做到了加密，又进行了混淆
+        System.out.println("打乱的字符:"+ascs.toString());
+        //将打乱的字符串再进行一次打乱取值
+        chars1 = ascs.toString().toCharArray();
+        ascs = new StringBuffer();
+        //遍历字符，然后隔5位增加到ascs数组中，增加到50位就不加了，这样既对原有信息做到了加密，又进行了混淆
         System.out.println("长度:"+chars1.length);
         for (int i = 0; i < chars1.length; i++) {
-            int asc = (int)chars1[i];
-            if (i%2==0){
-                ascs.append(asc);
+            if (i%5==0){
+                ascs.append((int)chars1[i]);
+            }
+            if (i<=chars1.length/2){
+                ascs.append((int)chars1[chars1.length-i-1]);
             }
             if (ascs.length()>50){
                 break;
             }
         }
-        System.out.println("根据xml信息最后得到的字符:"+ascs.toString());
+        System.out.println("\n根据xml信息最后得到的字符:"+ascs.toString());
         return  ascs.toString();
     }
 }

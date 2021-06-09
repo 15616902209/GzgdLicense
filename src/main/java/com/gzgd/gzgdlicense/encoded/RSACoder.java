@@ -12,6 +12,7 @@ import java.util.*;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.io.FileUtil;
+import com.gzgd.gzgdlicense.constants.LicenseConstants;
 
 /**
  * @Author: SachZhong
@@ -21,49 +22,15 @@ import cn.hutool.core.io.FileUtil;
 public class RSACoder {
 
     /**
-     * 非对称密钥算法
-     */
-    public static final String KEY_ALGORITHM = "RSA";
-    /**
-     * 密钥长度，DH算法的默认密钥长度是1024
-     * 密钥长度必须是64的倍数，在512到65536位之间
-     */
-    private static final int KEY_SIZE = 512;
-    /**
-     * 公钥 的键
-     */
-    private static final String PUBLIC_KEY = String.valueOf(Math.abs(UUID.randomUUID().getLeastSignificantBits()));
-    /**
-     * 私钥 的键
-     */
-    private static final String PRIVATE_KEY = String.valueOf(Math.abs(UUID.randomUUID().getLeastSignificantBits()));
-    /**
-     * 公钥名称
-     */
-    public final static String PUBLIC_KEY_NAME = "publicKey";
-    /**
-     * 私钥名称
-     */
-    public final static String PRIVATE_KEY_NAME = "privateKey";
-    /**
-     * 公钥文件生成路径
-     */
-    public final static String PUBLIC_KEY_FILE_URL = "resources/" + PUBLIC_KEY_NAME;
-    /**
-     * 私钥文件生成路径
-     */
-    public final static String PRIVATE_KEY_FILE_URL = "resources/" + PRIVATE_KEY_NAME;
-
-    /**
      * 初始化密钥对
      *
      * @return Map 甲方密钥的Map
      */
     public static Map<String, Object> initKey() throws Exception {
         //实例化密钥生成器
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(KEY_ALGORITHM);
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(LicenseConstants.KEY_ALGORITHM);
         //初始化密钥生成器
-        keyPairGenerator.initialize(KEY_SIZE);
+        keyPairGenerator.initialize(LicenseConstants.KEY_SIZE);
 
         //生成密钥对
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -75,9 +42,9 @@ public class RSACoder {
         //System.out.println("系数：" + privateKey.getModulus() + " 解密指数：" + privateKey.getPrivateExponent());
         //将密钥存储在map中
         Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put(PUBLIC_KEY, publicKey);
-        keyMap.put(PRIVATE_KEY, privateKey);
-        saveKey(keyPair, PUBLIC_KEY_FILE_URL, PRIVATE_KEY_FILE_URL);
+        keyMap.put(LicenseConstants.PUBLIC_KEY, publicKey);
+        keyMap.put(LicenseConstants.PRIVATE_KEY, privateKey);
+        saveKey(keyPair, LicenseConstants.PUBLIC_KEY_FILE_URL, LicenseConstants.PRIVATE_KEY_FILE_URL);
         return keyMap;
     }
 
@@ -88,15 +55,15 @@ public class RSACoder {
      */
     public static  Map<String, Object> generateKey(String publicKeyFileUrl, String privateKeyFileUrl) throws Exception {
         //实例化密钥生成器
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(KEY_ALGORITHM);
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(LicenseConstants.KEY_ALGORITHM);
         //初始化密钥生成器
-        keyPairGenerator.initialize(KEY_SIZE);
+        keyPairGenerator.initialize(LicenseConstants.KEY_SIZE);
         //生成密钥对
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
         //将密钥存储在map中
         Map<String, Object> keyMap = new HashMap<String, Object>();
-        keyMap.put(PUBLIC_KEY, keyPair.getPublic());
-        keyMap.put(PRIVATE_KEY, keyPair.getPrivate());
+        keyMap.put(LicenseConstants.PUBLIC_KEY, keyPair.getPublic());
+        keyMap.put(LicenseConstants.PRIVATE_KEY, keyPair.getPrivate());
         saveKey(keyPair, publicKeyFileUrl, privateKeyFileUrl);
         return keyMap;
     }
@@ -125,7 +92,7 @@ public class RSACoder {
      * @throws Exception
      */
     public static byte[] loadPublicKey() throws Exception {
-        File publicKeyFile = new File(PUBLIC_KEY_FILE_URL);
+        File publicKeyFile = new File(LicenseConstants.PUBLIC_KEY_FILE_URL);
         byte[] keyArr = FileUtil.readBytes(publicKeyFile);
         return keyArr;
     }
@@ -149,7 +116,7 @@ public class RSACoder {
      * @throws Exception
      */
     protected static byte[] loadPrivateKey() throws Exception {
-        File privateKeyFile = new File(PRIVATE_KEY_FILE_URL);
+        File privateKeyFile = new File(LicenseConstants.PRIVATE_KEY_FILE_URL);
         byte[] keyArr = FileUtil.readBytes(privateKeyFile);
         return keyArr;
     }
@@ -176,7 +143,7 @@ public class RSACoder {
 
         //取得私钥
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(key);
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        KeyFactory keyFactory = KeyFactory.getInstance(LicenseConstants.KEY_ALGORITHM);
         //生成私钥
         PrivateKey privateKey = keyFactory.generatePrivate(pkcs8KeySpec);
         //数据加密
@@ -195,7 +162,7 @@ public class RSACoder {
     public static byte[] encryptByPublicKey(byte[] data, byte[] key) throws Exception {
 
         //实例化密钥工厂
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        KeyFactory keyFactory = KeyFactory.getInstance(LicenseConstants.KEY_ALGORITHM);
         //初始化公钥
         //密钥材料转换
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(key);
@@ -218,7 +185,7 @@ public class RSACoder {
     public static byte[] decryptByPrivateKey(byte[] data, byte[] key) throws Exception {
         //取得私钥
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(key);
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        KeyFactory keyFactory = KeyFactory.getInstance(LicenseConstants.KEY_ALGORITHM);
         //生成私钥
         PrivateKey privateKey = keyFactory.generatePrivate(pkcs8KeySpec);
         //数据解密
@@ -237,7 +204,7 @@ public class RSACoder {
     public static byte[] decryptByPublicKey(byte[] data, byte[] key) throws Exception {
 
         //实例化密钥工厂
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+        KeyFactory keyFactory = KeyFactory.getInstance(LicenseConstants.KEY_ALGORITHM);
         //初始化公钥
         //密钥材料转换
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(key);
@@ -256,7 +223,7 @@ public class RSACoder {
      * @return byte[] 私钥
      */
     public static byte[] getPrivateKey(Map<String, Object> keyMap) {
-        Key key = (Key) keyMap.get(PRIVATE_KEY);
+        Key key = (Key) keyMap.get(LicenseConstants.PRIVATE_KEY);
         return key.getEncoded();
     }
 
@@ -267,7 +234,7 @@ public class RSACoder {
      * @return byte[] 公钥
      */
     public static byte[] getPublicKey(Map<String, Object> keyMap) throws Exception {
-        Key key = (Key) keyMap.get(PUBLIC_KEY);
+        Key key = (Key) keyMap.get(LicenseConstants.PUBLIC_KEY);
         return key.getEncoded();
     }
 
