@@ -1,11 +1,11 @@
-package com.gzgd.gzgdlicense.service.impl;
+package com.sachzhong.sachzhonglicense.service.impl;
 
 import cn.hutool.core.codec.Base64;
-import com.gzgd.gzgdlicense.constants.LicenseConstants;
-import com.gzgd.gzgdlicense.encoded.RSACoder;
-import com.gzgd.gzgdlicense.model.License;
-import com.gzgd.gzgdlicense.service.IGenXml;
-import com.gzgd.gzgdlicense.util.LicenseXmlUtil;
+import com.sachzhong.sachzhonglicense.constants.LicenseConstants;
+import com.sachzhong.sachzhonglicense.encoded.RSACoder;
+import com.sachzhong.sachzhonglicense.model.License;
+import com.sachzhong.sachzhonglicense.service.IGenXml;
+import com.sachzhong.sachzhonglicense.util.LicenseXmlUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;

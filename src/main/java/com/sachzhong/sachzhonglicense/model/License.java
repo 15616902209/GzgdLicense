@@ -1,4 +1,4 @@
-package com.gzgd.gzgdlicense.model;
+package com.sachzhong.sachzhonglicense.model;
 /**
  * @Author: SachZhong
  * @Description:

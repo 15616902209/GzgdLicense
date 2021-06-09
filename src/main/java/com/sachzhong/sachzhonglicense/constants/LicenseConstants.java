@@ -1,7 +1,11 @@
-package com.gzgd.gzgdlicense.constants;
+package com.sachzhong.sachzhonglicense.constants;
 
 import java.util.UUID;
-
+/**
+ * @Author: SachZhong
+ * @Description: 常量实体类
+ * @Date Created in 2021/6/9 19:31
+ */
 public class LicenseConstants {
     /**
      * 非对称密钥算法

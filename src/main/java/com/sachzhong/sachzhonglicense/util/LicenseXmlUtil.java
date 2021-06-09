@@ -1,8 +1,8 @@
-package com.gzgd.gzgdlicense.util;
+package com.sachzhong.sachzhonglicense.util;
 
 import cn.hutool.core.codec.Base64;
-import com.gzgd.gzgdlicense.encoded.RSACoder;
-import com.gzgd.gzgdlicense.model.License;
+import com.sachzhong.sachzhonglicense.encoded.RSACoder;
+import com.sachzhong.sachzhonglicense.model.License;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;

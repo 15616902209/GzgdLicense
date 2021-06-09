@@ -1,4 +1,4 @@
-package com.gzgd.gzgdlicense.encoded;
+package com.sachzhong.sachzhonglicense.encoded;
 
 import javax.crypto.Cipher;
 import java.io.File;
@@ -12,7 +12,7 @@ import java.util.*;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.io.FileUtil;
-import com.gzgd.gzgdlicense.constants.LicenseConstants;
+import com.sachzhong.sachzhonglicense.constants.LicenseConstants;
 
 /**
  * @Author: SachZhong

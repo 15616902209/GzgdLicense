@@ -1,4 +1,4 @@
-package com.gzgd.gzgdlicense;
+package com.sachzhong.sachzhonglicense;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

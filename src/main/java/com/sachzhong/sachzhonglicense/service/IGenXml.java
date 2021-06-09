@@ -1,4 +1,4 @@
-package com.gzgd.gzgdlicense.service;
+package com.sachzhong.sachzhonglicense.service;
 
 /**
  * @Author: SachZhong

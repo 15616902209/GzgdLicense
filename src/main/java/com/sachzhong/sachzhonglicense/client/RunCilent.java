@@ -1,9 +1,9 @@
-package com.gzgd.gzgdlicense.client;
+package com.sachzhong.sachzhonglicense.client;
 
-import com.gzgd.gzgdlicense.constants.LicenseConstants;
-import com.gzgd.gzgdlicense.service.IGenXml;
-import com.gzgd.gzgdlicense.service.impl.GenXmlImpl;
-import com.gzgd.gzgdlicense.thread.LicenseThread;
+import com.sachzhong.sachzhonglicense.constants.LicenseConstants;
+import com.sachzhong.sachzhonglicense.service.IGenXml;
+import com.sachzhong.sachzhonglicense.service.impl.GenXmlImpl;
+import com.sachzhong.sachzhonglicense.thread.LicenseThread;
 
 /**
  * @Author: SachZhong

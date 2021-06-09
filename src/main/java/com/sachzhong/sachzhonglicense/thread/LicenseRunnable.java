@@ -1,8 +1,8 @@
-package com.gzgd.gzgdlicense.thread;
+package com.sachzhong.sachzhonglicense.thread;
 
-import com.gzgd.gzgdlicense.constants.LicenseConstants;
-import com.gzgd.gzgdlicense.service.IGenXml;
-import com.gzgd.gzgdlicense.service.impl.GenXmlImpl;
+import com.sachzhong.sachzhonglicense.constants.LicenseConstants;
+import com.sachzhong.sachzhonglicense.service.IGenXml;
+import com.sachzhong.sachzhonglicense.service.impl.GenXmlImpl;
 
 public class LicenseRunnable implements Runnable{
 

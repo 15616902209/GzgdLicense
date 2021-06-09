@@ -8,10 +8,10 @@
         <version>2.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.gzgd</groupId>
-    <artifactId>GzgdLicense</artifactId>
+    <groupId>com.sachzhong</groupId>
+    <artifactId>sachzhonglicense</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>GzgdLicense</name>
+    <name>SachZhongLicense</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
