@@ -16,7 +16,11 @@ public class RunCilent {
     public static void main(String[] args) throws Exception {
         IGenXml iGenXml =new GenXmlImpl();
         Scanner scanner =new Scanner(System.in);
-        System.out.println("-----------------Liense加密程序----------------");
+        System.out.println("-----------------License加密程序----------------");
+        System.out.println("用法：先执行0生成基本的xml模板，然后可以自行更改xml中的信息。" +
+                "\n更改后，再启动执行1，对xml信息进行加密，并生成密钥信息和文件。" +
+                "\n可以通过执行2校验xml信息的合法性");
+        System.out.println("-----------------------------------------------");
         System.out.println("输入：0 生成xml模板");
         System.out.println("输入：1 对象xml信息进行加密");
         System.out.println("输入：2 校验xml信息的正确性");
@@ -36,7 +40,6 @@ public class RunCilent {
             System.out.println("-------------------结束程序----------------");
             System.exit(0);
         }
-
         //开启定时检查license线程
         //LicenseThread.startLicenseThread();
 

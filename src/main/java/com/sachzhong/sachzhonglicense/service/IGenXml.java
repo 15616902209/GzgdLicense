@@ -25,4 +25,11 @@ public interface IGenXml {
      * @throws Exception
      */
     boolean decryptXml(String fileUrl) throws Exception;
+    /**
+     * xml 地址
+     * @param fileUrl
+     * @return 结果
+     * @throws Exception
+     */
+    boolean checkDateTime(String fileUrl) throws Exception;
 }

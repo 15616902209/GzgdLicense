@@ -5,9 +5,10 @@ import com.sachzhong.sachzhonglicense.constants.LicenseConstants;
 import com.sachzhong.sachzhonglicense.encoded.RSACoder;
 import com.sachzhong.sachzhonglicense.model.License;
 import com.sachzhong.sachzhonglicense.service.IGenXml;
+import com.sachzhong.sachzhonglicense.util.DateTimeUtil;
 import com.sachzhong.sachzhonglicense.util.LicenseXmlUtil;
-
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -57,5 +58,20 @@ public class GenXmlImpl implements IGenXml {
         System.out.println("用公钥解密后的数据："+new String(decodeStr2));
         String sourceStr = license.getSourceStr();
         return sourceStr.equals(new String(decodeStr2));
+    }
+
+    /**
+     * /校验时间合法性
+     * @return 校验结果
+     */
+    @Override
+    public boolean checkDateTime(String fileUrl) throws Exception {
+        //读取xml 中的信息，转换成对象
+        License license = LicenseXmlUtil.readFormXml(fileUrl);
+        //将xml中的时间转为日期格式
+        //Date startDateTime = DateTimeUtil.parseDateSecondFormat(license.getStartTime());
+        Date endDateTime = DateTimeUtil.parseDateSecondFormat(license.getEndTime());
+
+        return false;
     }
 }

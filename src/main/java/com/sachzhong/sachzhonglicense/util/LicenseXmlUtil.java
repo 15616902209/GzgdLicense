@@ -48,6 +48,10 @@ public class LicenseXmlUtil {
         String id = String.valueOf(System.currentTimeMillis() + Math.abs(UUID.randomUUID().getLeastSignificantBits()));
         license.setId(id);
         license.setName("License");
+        //取当前日期
+        license.setStartTime(DateTimeUtil.getDateFormat(new Date()));
+        //默认加一天
+        license.setEndTime(DateTimeUtil.getDateFormat(DateTimeUtil.getNextNumDay(new Date(),1)));
         //获取机器的IP
         InetAddress address = InetAddress.getLocalHost();
         license.setIp(address.getHostAddress());
@@ -145,7 +149,7 @@ public class LicenseXmlUtil {
      * @throws Exception
      */
     public static void writerToXml(License license, String fileUrl) throws Exception {
-        System.out.println("要写入到xml中的信息：" + license.toString());
+        System.out.println("写入到xml中的信息：" + license.toString());
         Document document = DocumentHelper.createDocument();
         document.addComment("《《《《《《《《《《《《《《《《Lisence》》》》》》》》》》》》》》");
         document.addComment("该文件为密钥加密文件，切勿有任何修改或挪动，否则会导致解密校验失败！");
