@@ -3,7 +3,11 @@ package com.sachzhong.sachzhonglicense.thread;
 import com.sachzhong.sachzhonglicense.constants.LicenseConstants;
 import com.sachzhong.sachzhonglicense.service.IGenXml;
 import com.sachzhong.sachzhonglicense.service.impl.GenXmlImpl;
-
+/**
+ * @Author: SachZhong
+ * @Description: 线程实现类
+ * @Date Created in 2021/6/10 10:16
+ */
 public class LicenseRunnable implements Runnable{
 
     int count=0;

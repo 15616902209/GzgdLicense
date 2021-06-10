@@ -1,6 +1,7 @@
 package com.sachzhong.sachzhonglicense.util;
 
 import cn.hutool.core.codec.Base64;
+import com.sachzhong.sachzhonglicense.constants.LicenseConstants;
 import com.sachzhong.sachzhonglicense.encoded.RSACoder;
 import com.sachzhong.sachzhonglicense.model.License;
 import org.dom4j.Document;
@@ -24,10 +25,6 @@ import java.util.*;
  * @Date Created in 2021/6/9 9:52
  */
 public class LicenseXmlUtil {
-    /**
-     * xml的文件路径
-     */
-    public final static String LICENSE_FILE_URL = "resources/license.xml";
 
     /**
      * 测试运行函数
@@ -36,10 +33,26 @@ public class LicenseXmlUtil {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        writerToXml(initLicenseData(), LICENSE_FILE_URL);
-        readFormXml(LICENSE_FILE_URL);
+        writerToXml(initLicenseData(), LicenseConstants.LICENSE_FILE_URL);
+        readFormXml(LicenseConstants.LICENSE_FILE_URL);
     }
-
+    /**
+     * 初始化xml
+     *
+     * @return
+     * @throws Exception
+     */
+    public static License initLicenseXml() throws Exception {
+        License license = new License();
+        //将当前时间戳加上uuid的绝对值作为id，基本上能保证唯一
+        String id = String.valueOf(System.currentTimeMillis() + Math.abs(UUID.randomUUID().getLeastSignificantBits()));
+        license.setId(id);
+        license.setName("License");
+        //获取机器的IP
+        InetAddress address = InetAddress.getLocalHost();
+        license.setIp(address.getHostAddress());
+        return license;
+    }
     /**
      * 初始化机密对象
      *
@@ -51,7 +64,7 @@ public class LicenseXmlUtil {
         //将当前时间戳加上uuid的绝对值作为id，基本上能保证唯一
         String id = String.valueOf(System.currentTimeMillis() + Math.abs(UUID.randomUUID().getLeastSignificantBits()));
         license.setId(id);
-        license.setName("sachzhong");
+        license.setName("License");
 
         //获取机器的IP
         InetAddress address = InetAddress.getLocalHost();
@@ -72,7 +85,7 @@ public class LicenseXmlUtil {
         byte[] byteSign = RSACoder.encryptByPrivateKey(sourceByte, privateKey);
         String encrytStr = Base64.encode(byteSign);
         System.out.println("使用私钥加密得到的数据：" + encrytStr);
-        license.setEncryptedStr(encrytStr);
+        license.setSign(encrytStr);
 
         byte[] decodeStr = RSACoder.decryptByPublicKey(Base64.decode(encrytStr), publicKey);
         System.out.println("使用文件的私钥解密后的数据：" + new String(decodeStr));
@@ -159,6 +172,16 @@ public class LicenseXmlUtil {
         of.setEncoding("utf-8");
         // 输出到文件
         File fileOut = new File(fileUrl);
+        //获取父文件夹加
+        File fileParent = fileOut.getParentFile();
+        //不存在就创建文件
+        if(!fileParent.exists()){
+            fileParent.mkdirs();
+        }
+        if (!fileOut.exists()){
+            fileOut.createNewFile();
+        }
+
         XMLWriter writer;
         writer = new XMLWriter(new FileOutputStream(fileOut.getAbsolutePath()), of);
         // 写出

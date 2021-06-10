@@ -21,7 +21,7 @@ public class GenXmlImpl implements IGenXml {
     @Override
     public void genBaseXml(String fileUrl) throws Exception {
         //初始化xml文件到指定地址
-        License license = LicenseXmlUtil.initLicenseData();
+        License license = LicenseXmlUtil.initLicenseXml();
         LicenseXmlUtil.writerToXml(license, fileUrl);
     }
 
@@ -41,8 +41,9 @@ public class GenXmlImpl implements IGenXml {
         //用私钥加密
         byte[] byteSign = RSACoder.encryptByPrivateKey(sourceByte, privateKey);
         String encrytStr = Base64.encode(byteSign);
+        System.out.println("私钥加密后的字符:"+encrytStr);
         //设置得到对象中去
-        license.setEncryptedStr(encrytStr);
+        license.setSign(encrytStr);
         //将对象写回到xml中去
         LicenseXmlUtil.writerToXml(license, fileUrl);
     }
@@ -52,7 +53,7 @@ public class GenXmlImpl implements IGenXml {
         //读取xml 中的信息，转换成对象
         License license = LicenseXmlUtil.readFormXml(fileUrl);
         byte[] privateKeyFile = RSACoder.loadPublicKey(LicenseConstants.PUBLIC_KEY_FILE_URL);
-        byte[] decodeStr2 = RSACoder.decryptByPublicKey(Base64.decode(license.getEncryptedStr()), privateKeyFile);
+        byte[] decodeStr2 = RSACoder.decryptByPublicKey(Base64.decode(license.getSign()), privateKeyFile);
         System.out.println("用公钥解密后的数据："+new String(decodeStr2));
         String sourceStr = license.getSourceStr();
         return sourceStr.equals(new String(decodeStr2));

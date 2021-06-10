@@ -5,6 +5,8 @@ import com.sachzhong.sachzhonglicense.service.IGenXml;
 import com.sachzhong.sachzhonglicense.service.impl.GenXmlImpl;
 import com.sachzhong.sachzhonglicense.thread.LicenseThread;
 
+import java.util.Scanner;
+
 /**
  * @Author: SachZhong
  * @Description:
@@ -12,22 +14,31 @@ import com.sachzhong.sachzhonglicense.thread.LicenseThread;
  */
 public class RunCilent {
     public static void main(String[] args) throws Exception {
-
-        //testLicense();
+        IGenXml iGenXml =new GenXmlImpl();
+        Scanner scanner =new Scanner(System.in);
+        System.out.println("-----------------Liense加密程序----------------");
+        System.out.println("输入：0 生成xml模板");
+        System.out.println("输入：1 对象xml信息进行加密");
+        System.out.println("输入：2 校验xml信息的正确性");
+        System.out.println("其他输入：退出程序\n");
+        int input = scanner.nextInt();
+        if (input==0){
+            //生成基础模板
+            iGenXml.genBaseXml(LicenseConstants.LICENSE_FILE_URL);
+        }else if (input==1){
+            //对xml文件中的信息进行加密
+            iGenXml.encryptXml(LicenseConstants.LICENSE_FILE_URL);
+        }else if (input==2){
+            //对xml文件信息进行解密，并校验其信息的正确性
+            boolean result = iGenXml.decryptXml(LicenseConstants.LICENSE_FILE_URL);
+            System.out.println("校验结果："+result);
+        }else {
+            System.out.println("-------------------结束程序----------------");
+            System.exit(0);
+        }
 
         //开启定时检查license线程
-        LicenseThread.startLicenseThread();
+        //LicenseThread.startLicenseThread();
 
     }
-
-    public static void testLicense() throws Exception{
-        IGenXml iGenXml =new GenXmlImpl();
-        //iGenXml.genBaseXml(LICENSE_FILE_URL);
-        //对xml文件中的信息进行加密
-        //iGenXml.encryptXml(LICENSE_FILE_URL);
-        //对xml文件信息进行机密，并校验其信息的正确性
-        boolean result = iGenXml.decryptXml(LicenseConstants.LICENSE_FILE_URL);
-        System.out.println("校验结果："+result);
-    }
-
 }

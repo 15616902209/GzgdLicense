@@ -24,7 +24,7 @@ public class License {
     /**
      * 被加密的字符 提供给外部，存储在xml，或者文本中
      */
-    private String encryptedStr;
+    private String sign;
     /**
      * 生效时间
      */
@@ -74,12 +74,12 @@ public class License {
         this.mac = mac;
     }
 
-    public String getEncryptedStr() {
-        return encryptedStr;
+    public String getSign() {
+        return sign;
     }
 
-    public void setEncryptedStr(String encryptedStr) {
-        this.encryptedStr = encryptedStr;
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 
     public String getStartTime() {
@@ -121,7 +121,7 @@ public class License {
                 ", name='" + name + '\'' +
                 ", ip='" + ip + '\'' +
                 ", mac='" + mac + '\'' +
-                ", encryptedStr='" + encryptedStr + '\'' +
+                ", sign='" + sign + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
                 ", count='" + count + '\'' +
@@ -135,7 +135,7 @@ public class License {
      */
     public String getSourceStr(){
         //id是唯一的，name来区分系统，ip用来验证地址 用来验证准确性
-        String sourcesStr = (id+name+ip+options+startTime+endTime);
+        String sourcesStr = (id+name+ip+mac+options+startTime+endTime+count);
 
         System.out.println("最原始字符:"+sourcesStr);
         char[] chars1 = sourcesStr.toCharArray();
@@ -149,6 +149,7 @@ public class License {
                 ascs.append(chars1.length/2);
             }
             if (i<chars1.length/2){
+                //变换位置进行混淆
                 ascs.append((int)chars1[chars1.length-i-1]);
             }
         }
@@ -163,13 +164,14 @@ public class License {
                 ascs.append((int)chars1[i]);
             }
             if (i<=chars1.length/2){
+                //增加一些后面的数
                 ascs.append((int)chars1[chars1.length-i-1]);
             }
             if (ascs.length()>50){
                 break;
             }
         }
-        System.out.println("\n根据xml信息最后得到的字符:"+ascs.toString());
+        System.out.println("根据xml信息最后得到的字符:"+ascs.toString());
         return  ascs.toString();
     }
 }
