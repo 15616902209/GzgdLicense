@@ -147,6 +147,8 @@ public class LicenseXmlUtil {
     public static void writerToXml(License license, String fileUrl) throws Exception {
         System.out.println("要写入到xml中的信息：" + license.toString());
         Document document = DocumentHelper.createDocument();
+        document.addComment("《《《《《《《《《《《《《《《《Lisence》》》》》》》》》》》》》》");
+        document.addComment("该文件为密钥加密文件，切勿有任何修改或挪动，否则会导致解密校验失败！");
         // 创建元素并设置关系
         Element config = document.addElement("config");
         //获取实体类的所有属性，返回Field数组
