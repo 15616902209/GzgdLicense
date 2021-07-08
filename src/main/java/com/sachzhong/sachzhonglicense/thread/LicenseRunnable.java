@@ -31,7 +31,7 @@ public class LicenseRunnable implements Runnable{
                 }
             }
             //校验时间合法性
-//            result =  checkDateTime();
+            result =  iGenXml.checkDateTime(LicenseConstants.LICENSE_FILE_URL);
             System.out.println("对时间的校验结果："+result);
             count++;
             System.out.println("定时任务执行的次数："+count);

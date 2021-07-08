@@ -47,11 +47,11 @@ public class LicenseXmlUtil {
         //将当前时间戳加上uuid的绝对值作为id，基本上能保证唯一
         String id = String.valueOf(System.currentTimeMillis() + Math.abs(UUID.randomUUID().getLeastSignificantBits()));
         license.setId(id);
-        license.setName("License");
+        license.setName(LicenseConstants.LICENSE_NAME);
         //取当前日期
         license.setStartTime(DateTimeUtil.getDateFormat(new Date()));
-        //默认加一天
-        license.setEndTime(DateTimeUtil.getDateFormat(DateTimeUtil.getNextNumDay(new Date(),1)));
+        //单位天
+        license.setEndTime(DateTimeUtil.getDateFormat(DateTimeUtil.getNextNumDay(new Date(),LicenseConstants.INVALID_DAY)));
         //获取机器的IP
         InetAddress address = InetAddress.getLocalHost();
         license.setIp(address.getHostAddress());
@@ -68,7 +68,7 @@ public class LicenseXmlUtil {
         //将当前时间戳加上uuid的绝对值作为id，基本上能保证唯一
         String id = String.valueOf(System.currentTimeMillis() + Math.abs(UUID.randomUUID().getLeastSignificantBits()));
         license.setId(id);
-        license.setName("License");
+        license.setName(LicenseConstants.LICENSE_NAME);
 
         //获取机器的IP
         InetAddress address = InetAddress.getLocalHost();

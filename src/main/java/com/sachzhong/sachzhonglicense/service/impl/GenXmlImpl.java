@@ -66,12 +66,33 @@ public class GenXmlImpl implements IGenXml {
      */
     @Override
     public boolean checkDateTime(String fileUrl) throws Exception {
+        //当license剩余6个月发送短信提示，剩余2到6个月段，剩余天数为10倍数时触发警告，剩余1个月时，剩余天数为3的倍数时发送短信
         //读取xml 中的信息，转换成对象
         License license = LicenseXmlUtil.readFormXml(fileUrl);
         //将xml中的时间转为日期格式
-        //Date startDateTime = DateTimeUtil.parseDateSecondFormat(license.getStartTime());
         Date endDateTime = DateTimeUtil.parseDateSecondFormat(license.getEndTime());
+        Date nowDate = new Date();
 
-        return false;
+        //如果结束日期小于当前日期，说明过期了
+        if (endDateTime.compareTo(nowDate) < 0){
+            return false;
+        }
+
+        //当license剩余6个月发送短信提示
+       if(DateTimeUtil.leftMonthToSix(nowDate,endDateTime)){
+                //TODO 发送提示短信
+
+       }else if (DateTimeUtil.leftMonthTwoAndSix(nowDate,endDateTime)){
+           //剩余2到6个月段，剩余天数为10倍数时触发警告
+           if (DateTimeUtil.leftDayTenTimes(nowDate,endDateTime)){
+                //TODO 发送提示短信
+           }
+       }else if(DateTimeUtil.leftMonthOne(nowDate,endDateTime)){
+           //剩余1个月时，剩余天数为3的倍数时发送短信
+           if (DateTimeUtil.leftDayThreeTimes(nowDate,endDateTime)){
+                //TODO 发送提示短信
+           }
+       }
+        return true;
     }
 }

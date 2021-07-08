@@ -3,7 +3,6 @@ package com.sachzhong.sachzhonglicense.client;
 import com.sachzhong.sachzhonglicense.constants.LicenseConstants;
 import com.sachzhong.sachzhonglicense.service.IGenXml;
 import com.sachzhong.sachzhonglicense.service.impl.GenXmlImpl;
-import com.sachzhong.sachzhonglicense.thread.LicenseThread;
 
 import java.util.Scanner;
 
@@ -22,7 +21,7 @@ public class RunCilent {
                 "\n可以通过执行2校验xml信息的合法性");
         System.out.println("-----------------------------------------------");
         System.out.println("输入：0 生成xml模板");
-        System.out.println("输入：1 对象xml信息进行加密");
+        System.out.println("输入：1 对xml信息进行加密");
         System.out.println("输入：2 校验xml信息的正确性");
         System.out.println("其他输入：退出程序\n");
         int input = scanner.nextInt();
@@ -40,8 +39,6 @@ public class RunCilent {
             System.out.println("-------------------结束程序----------------");
             System.exit(0);
         }
-        //开启定时检查license线程
-        //LicenseThread.startLicenseThread();
 
     }
 }

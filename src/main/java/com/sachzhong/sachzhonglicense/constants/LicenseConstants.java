@@ -8,6 +8,14 @@ import java.util.UUID;
  */
 public class LicenseConstants {
     /**
+     * 设置license的名称
+     */
+    public static String LICENSE_NAME = "License";
+    /**
+     * 设置密钥失效的天数，单位为天。例如要想密钥一年后失效就设置，365
+     */
+    public static int INVALID_DAY = 365;
+    /**
      * 非对称密钥算法
      */
     public static final String KEY_ALGORITHM = "RSA";

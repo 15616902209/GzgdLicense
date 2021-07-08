@@ -1567,7 +1567,7 @@ public class DateTimeUtil {
      *
      * @return
      */
-    public boolean leftMonthToSix(Date startDateTime, Date endDateTime) {
+    public static boolean leftMonthToSix(Date startDateTime, Date endDateTime) {
         int result = betweenMonths(startDateTime, endDateTime);
         if (result == 6) {
             return true;
@@ -1580,7 +1580,7 @@ public class DateTimeUtil {
      *
      * @return
      */
-    public boolean leftMonthTwoAndSix(Date startDateTime, Date endDateTime) {
+    public static boolean leftMonthTwoAndSix(Date startDateTime, Date endDateTime) {
         int result = betweenMonths(startDateTime, endDateTime);
         if (result >= 2 && result < 6) {
             return true;
@@ -1593,7 +1593,7 @@ public class DateTimeUtil {
      *
      * @return
      */
-    public boolean leftMonthOne(Date startDateTime, Date endDateTime) {
+    public static boolean leftMonthOne(Date startDateTime, Date endDateTime) {
         int result = betweenMonths(startDateTime, endDateTime);
         if (result <= 1) {
             return true;
@@ -1606,7 +1606,7 @@ public class DateTimeUtil {
      *
      * @return
      */
-    public boolean leftDayTenTimes(Date startDateTime, Date endDateTime) {
+    public static boolean leftDayTenTimes(Date startDateTime, Date endDateTime) {
         int result = calculeteBetweenDays(startDateTime, endDateTime);
         if (result % 10 == 0) {
             return true;
@@ -1620,7 +1620,7 @@ public class DateTimeUtil {
      *
      * @return
      */
-    public boolean leftDayThreeTimes(Date startDateTime, Date endDateTime) {
+    public static boolean leftDayThreeTimes(Date startDateTime, Date endDateTime) {
         int result = calculeteBetweenDays(startDateTime, endDateTime);
         if (result % 3 == 0) {
             return true;
