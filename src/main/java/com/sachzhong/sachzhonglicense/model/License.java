@@ -143,35 +143,13 @@ public class License {
 
         //对源字符串进行混淆，打乱位置
         for (int i = 0; i < chars1.length; i++) {
-            if (i%2==0){
-                ascs.append((int)chars1[i]);
-                //上加整体的字符长度除2，只要整体一变，数据就会不一样
-                ascs.append(chars1.length/2);
-            }
-            if (i<chars1.length/2){
-                //变换位置进行混淆
-                ascs.append((int)chars1[chars1.length-i-1]);
-            }
+            ascs.append((int)chars1[i]);
         }
+        ascs.append(chars1.length);
         System.out.println("打乱的字符:"+ascs.toString());
         //将打乱的字符串再进行一次打乱取值
         chars1 = ascs.toString().toCharArray();
-        ascs = new StringBuffer();
-        //遍历字符，然后隔5位增加到ascs数组中，增加到50位就不加了，这样既对原有信息做到了加密，又进行了混淆
         System.out.println("长度:"+chars1.length);
-        for (int i = 0; i < chars1.length; i++) {
-            if (i%5==0){
-                ascs.append((int)chars1[i]);
-            }
-            if (i<=chars1.length/2){
-                //增加一些后面的数
-                ascs.append((int)chars1[chars1.length-i-1]);
-            }
-            if (ascs.length()>50){
-                break;
-            }
-        }
-        System.out.println("根据xml信息最后得到的字符:"+ascs.toString());
         return  ascs.toString();
     }
 }

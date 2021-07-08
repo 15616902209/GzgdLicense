@@ -151,11 +151,6 @@ public class LicenseXmlUtil {
     public static void writerToXml(License license, String fileUrl) throws Exception {
         System.out.println("写入到xml中的信息：" + license.toString());
         Document document = DocumentHelper.createDocument();
-        document.addComment(" \n | |      (_)\n" +
-                " | |       _    ___    ___   _ __    ___    ___\n" +
-                " | |      | |  / __|  / _ \\ | '_ \\  / __|  / _ \\\n" +
-                " | |____  | | | (__  |  __/ | | | | \\__ \\ |  __/\n" +
-                " |______| |_|  \\___|  \\___| |_| |_| |___/  \\___|\n");
         document.addComment("该文件为密钥加密文件，切勿有任何修改或挪动，否则会导致解密校验失败！");
         // 创建元素并设置关系
         Element config = document.addElement("config");
